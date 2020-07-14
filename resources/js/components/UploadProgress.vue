@@ -158,12 +158,22 @@ export default {
                             this.$emit('removeFile', file.id);
                         }, 2000);
                     } else {
-                        this.$toasted.show(
-                            this.__(
-                                'Error uploading the file. Check your MaxFilesize or permissions'
-                            ),
-                            { type: 'error' }
-                        );
+                        if(response.data.errors){
+                            response.data.errors.forEach((error) => {
+                                this.$toasted.show(this.__(error), {type: 'error'});
+                            });
+                            setTimeout(() => {
+                                this.$emit('removeFile', file.id);
+                            }, 1000);
+                        }
+                        else {
+                            this.$toasted.show(
+                                this.__(
+                                    'Error uploading the file. Check your MaxFilesize or permissions'
+                                ),
+                                { type: 'error' }
+                            );
+                        }
                     }
                 })
                 .catch(error => {
