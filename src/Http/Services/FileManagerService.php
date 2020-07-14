@@ -184,6 +184,11 @@ class FileManagerService
             ])->validate();
         }
 
+        $fileName = $file->getClientOriginalName();
+        if($this->storage->has($currentFolder.'/'. $fileName)) {
+            return response()->json(['success' => false, 'errors' => ["a file with name of '$fileName' already exists"]]);
+        }
+
         $fileName = $this->namingStrategy->name($currentFolder, $file);
 
         if ($this->storage->putFileAs($currentFolder, $file, $fileName)) {
