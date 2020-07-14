@@ -331,7 +331,7 @@ export default {
         },
 
         searchItems: _.debounce(function(e) {
-            this.search = e.target.value;
+            this.search = e.target.value.toLowerCase();
         }, 300),
 
         select(file) {
