@@ -44,8 +44,8 @@
                     </p>
                 </div>
 
-                <div class="h-1/6 w-full text-center text-xs  border-t border-30 bg-50 flex items-center justify-center">
-                    {{ file.name | truncate(25) }}
+                <div class="h-1/6 w-full center text-xs border-t border-30 bg-50 flex items-center justify-center" :title="file.name">
+                    {{ file.name | truncate(12) }}
                 </div>
             </div>
         </template>
@@ -261,7 +261,9 @@ export default {
     },
     filters: {
         truncate: function(text, stop, clamp) {
-            return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '');
+            var extension = text.split('.').reverse()[0];
+            extension = (extension.length === text) ? '':'.'+extension;
+            return text.slice(0, stop) + (stop < text.length ? clamp || '…' : '') + extension;
         },
     },
     watch: {
